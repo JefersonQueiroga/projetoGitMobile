@@ -8,6 +8,7 @@ export const Container = styled.View`
    align-items: center ;
    justify-content: space-between;
    padding: 0 30px ;
+   margin: 5px;
 `;
 
 export const TextItem = styled.Text`

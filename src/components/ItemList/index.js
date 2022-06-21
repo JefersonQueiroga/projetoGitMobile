@@ -8,12 +8,12 @@ import {
  } from './styles'
  import { Ionicons } from '@expo/vector-icons'; 
 
-export default function ItemList() {
+export default function ItemList(props) {
    return (
       <Container>
-         <TextItem>Texto</TextItem>
+         <TextItem>{ props.name }</TextItem>
          <Separator/>
-         <ButtonItem>
+         <ButtonItem onPress={ props.onPress }>
                <Ionicons name="md-eye-outline" size={25} color="black" />  
          </ButtonItem>
       </Container>

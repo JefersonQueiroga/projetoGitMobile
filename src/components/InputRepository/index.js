@@ -12,7 +12,8 @@ export default function InputRepository(props) {
 
    return (
       <Container>
-         <InputText placeholder="Adicione o nickname do usuário"/>
+         <InputText placeholder={props.placeholder} 
+            onChangeText={props.onChangeText} value={props.value} />
          <TouchableOpacity onPress={props.onPress}>
             <Ionicons name="chevron-forward-outline" size={24} color="black" />
          </TouchableOpacity>

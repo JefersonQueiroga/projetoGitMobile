@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import {Keyboard} from 'react-native'
+import {Keyboard,FlatList} from 'react-native'
 import { Container, Logotipo,TitleLogotipo} from './styles'
 import { AntDesign } from '@expo/vector-icons'; 
 import InputRepository from '../../components/InputRepository';
@@ -8,12 +8,20 @@ import api from  '../../services/api';
 
 export function Home({navigation}){
    const [nickname, setNickname] = useState(''); 
+   const [ users,setUsers ] = useState([]);
+ 
+
+   function navigationDetails(){
+      navigation.navigate('details');
+   }
+
 
    async function handleSearchUser () {
       try{
         //reponse vai receber o user  pesquisado 
-        response = await api.get('/users/' + 'jefersonqueiroga'); 
-        console.log(response)    
+        console.log("----------------");
+        console.log(nickname);
+        let response = await api.get('/users/' + nickname); 
         //atribuinto ao data o response 
         const {data} = response; 
 
@@ -23,12 +31,11 @@ export function Home({navigation}){
           nome: data.name, 
           login: data.login,
         }
-        
 
-        Keyboard.dismiss();
-        setNickname('');  
-       
-        console.log(obj);
+        setUsers( [...users, obj ] );
+        setNickname(' ');
+
+        console.log("Finalllllll");
 
       }catch(error){
       console.error(error);
@@ -41,11 +48,17 @@ export function Home({navigation}){
             <AntDesign name="github" size={100} color="#8257E5" />
             <TitleLogotipo>GIT.Networking</TitleLogotipo>
          </Logotipo>
-         <InputRepository  onPress={()=> handleSearchUser() }/>
-         <ItemList/>
-         <ItemList/>
-         <ItemList/>
-
+         <InputRepository placeholder={"Digitar o nickname"} 
+            value={nickname}
+            onPress={ handleSearchUser } 
+            onChangeText={setNickname} />
+        
+         <FlatList  data={users}  
+          keyExtractor={item => item.id.toString()} 
+          renderItem={ ({item}) =>  (
+              <ItemList name={item.login} onPress={ () => navigationDetails()}/>
+          ) }
+         /> 
 
       </Container>
    );
